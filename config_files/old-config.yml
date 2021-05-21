@@ -1,0 +1,42 @@
+---
+pipeline: test-pipeline
+output_dir: profiles
+platemap_well_column: Metadata_well_position
+compartments: cells,cytoplasm,nuclei
+aggregate:
+  perform: true
+  plate_column: Metadata_Plate
+  well_column: Metadata_Well
+  method: median
+  features: infer
+  object_feature: Metadata_ObjectNumber
+annotate:
+  perform: true
+  well_column: Metadata_Well
+  external: 
+normalize:
+  perform: true
+  negcon: true
+  method: mad_robustize
+  features: infer
+feature_select:
+  perform: true
+  negcon: true
+  features: infer
+  operations:
+    - variance_threshold
+    - correlation_threshold
+    - drop_na_columns
+    - blocklist
+options:
+  compression: gzip
+  float_format: "%.5g"
+  samples: all
+---
+batch: data-old
+plates:
+  - name: 218360 
+    process: true
+  - name: 218360-2
+    process: true
+process: true
